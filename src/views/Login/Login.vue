@@ -3,7 +3,7 @@
     <div class="card shadow">
       <div class="card-body">
         <div class="card-img">
-          <img src="../../assets/logo-normal.png" alt="" />
+          <img src="../../assets/logo.png" alt="" />
         </div>
         <h3>Xush kelibsiz</h3>
         <form @submit.prevent="post(data)">
@@ -105,7 +105,7 @@ export default {
       padding: 10px;
 
       img {
-        width: 100%;
+        width: 80%;
       }
     }
 

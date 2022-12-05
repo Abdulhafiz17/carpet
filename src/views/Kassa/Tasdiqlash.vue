@@ -26,9 +26,63 @@
         <form @submit.prevent="confirmOrder(confirm_order)">
           <div class="modal-body">
             <h3>{{ _.format(balance?.total_price) + " so'm" }}</h3>
+            <div class="row">
+              <div class="col-md-6">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-block"
+                  :class="
+                    order_type == 'payment'
+                      ? 'btn-primary'
+                      : 'btn-outline-primary'
+                  "
+                  @click="order_type = 'payment'"
+                >
+                  To'lov
+                </button>
+              </div>
+              <div class="col-md-6">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-block"
+                  :class="
+                    order_type == 'term' ? 'btn-primary' : 'btn-outline-primary'
+                  "
+                  @click="order_type = 'term'"
+                >
+                  Muddatli to'lov
+                </button>
+              </div>
+            </div>
+            <div class="row my-1" v-if="order_type == 'term'">
+              <label class="col-md-6">
+                Muddatni kiriting
+                <div class="input-group input-group-sm">
+                  <input
+                    type="number"
+                    min="0"
+                    class="form-control"
+                    placeholder="muddat"
+                    required
+                  />
+                  <div class="input-group-text">oy</div>
+                </div>
+              </label>
+              <label class="col-md-6">
+                To'lov sanasini kiriting
+                <input
+                  type="number"
+                  min="0"
+                  max="28"
+                  class="form-control form-control-sm"
+                  placeholder="sana"
+                  required
+                />
+              </label>
+            </div>
             <h5>Mijoz turini tanlang</h5>
             <div class="row">
-              <div class="col-4">
+              <div class="col-4" v-if="order_type == 'payment'">
                 <button
                   type="button"
                   class="btn btn-sm btn-block"
@@ -42,7 +96,7 @@
                   Umumiy
                 </button>
               </div>
-              <div class="col-4">
+              <div :class="order_type == 'payment' ? 'col-4' : 'col-6'">
                 <button
                   type="button"
                   class="btn btn-sm btn-block"
@@ -56,7 +110,7 @@
                   Doimiy
                 </button>
               </div>
-              <div class="col-4">
+              <div :class="order_type == 'payment' ? 'col-4' : 'col-6'">
                 <button
                   type="button"
                   class="btn btn-sm btn-block"
@@ -467,6 +521,7 @@ export default {
         seller_id: 0,
       },
       order_print: {},
+      order_type: "payment",
     };
   },
   computed: {

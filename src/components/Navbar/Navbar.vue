@@ -32,6 +32,9 @@
     <router-link class="link" to="/mijozlar" v-if="role == 'branch_admin'">
       Mijozlar
     </router-link>
+    <router-link class="link" to="/credits" v-if="role == 'branch_admin'">
+      Muddatli to'lov
+    </router-link>
     <router-link class="link" to="/nasiyalar" v-if="role == 'branch_admin'">
       Nasiyalar
     </router-link>
@@ -67,6 +70,7 @@
     tabindex="-1"
     id="offcanvasExample"
     aria-labelledby="offcanvasExampleLabel"
+    data-bs-dismiss="offcanvas"
   >
     <div class="offcanvas-header justify-content-end">
       <button
@@ -147,6 +151,14 @@
         <router-link
           class="link list-group-item"
           data-bs-dismiss="offcanvas"
+          to="/credits"
+          v-if="role == 'branch_admin'"
+        >
+          Muddatli to'lov
+        </router-link>
+        <router-link
+          class="link list-group-item"
+          data-bs-dismiss="offcanvas"
           to="/nasiyalar"
           v-if="role == 'branch_admin'"
         >
@@ -221,6 +233,7 @@ nav {
   a {
     position: relative;
     padding: 5px;
+    font-size: 15px;
     font-weight: bold;
     color: #2c3e50;
     text-decoration: none;

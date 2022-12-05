@@ -129,6 +129,27 @@ let routes = [
     component: () => import("../views/Mijozlar/Mijoz.vue"),
   },
   {
+    path: "/credits",
+    name: "credits",
+    meta: {
+      auth: true,
+      title: "Muddatli to'lov",
+      role: ["branch_admin"],
+    },
+    component: () => import("../views/Credits/Credits.vue"),
+  },
+  {
+    path: "/credit/:id",
+    name: "credit",
+    meta: {
+      auth: true,
+      title: "Muddatli to'lov",
+      iscomponent: true,
+      role: ["branch_admin"],
+    },
+    component: () => import("../views/Credits/Credit.vue"),
+  },
+  {
     path: "/nasiyalar",
     name: "nasiyalar",
     meta: { auth: true, title: "Nasiyalar", role: ["branch_admin"] },
