@@ -150,7 +150,7 @@
                       required
                       v-model="new_category.type"
                     >
-                      <option value="">turi</option>
+                      <option value="" hidden>turi</option>
                       <option value="dona">dona</option>
                       <option value="metr">metr</option>
                     </select>
