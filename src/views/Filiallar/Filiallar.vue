@@ -72,7 +72,8 @@
                   :to="`/hisobotlar/${item.Branches.id}`"
                   class="btn btn-sm btn-block btn-outline-success"
                 >
-                  <i class="fa fa-chart-line" />
+                  <!-- <i class="fa fa-chart-line" /> -->
+                  Hisobotlar
                 </router-link>
               </div>
               <div class="col">
@@ -80,7 +81,8 @@
                   :to="`/hodimlar/${item.Branches.id}`"
                   class="btn btn-sm btn-block btn-outline-primary"
                 >
-                  <i class="fa fa-user-group" />
+                  <!-- <i class="fa fa-user-group" /> -->
+                  Hodimlar
                 </router-link>
               </div>
               <div class="col">
@@ -88,7 +90,8 @@
                   :to="`/filial_tarix/${item.Branches.id}`"
                   class="btn btn-sm btn-block btn-outline-secondary"
                 >
-                  <i class="fa fa-history" />
+                  <!-- <i class="fa fa-history" /> -->
+                  Tarix
                 </router-link>
               </div>
               <div class="col">
@@ -106,7 +109,8 @@
                     edit.file = item.file;
                   "
                 >
-                  <i class="fa fa-edit" />
+                  <!-- <i class="fa fa-edit" /> -->
+                  Tahrirlash
                 </button>
               </div>
             </div>
