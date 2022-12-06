@@ -94,7 +94,8 @@
                 </div>
               </div>
             </th>
-            <th>Summa</th>
+            <th>Nasiya summasi</th>
+            <th v-if="template == 'active'">Qoldiq summa</th>
             <th>Qaytarish sanasi</th>
             <th></th>
           </tr>
@@ -106,11 +107,10 @@
           >
             <td>{{ item.Customers.name }}</td>
             <td>
-              {{
-                _.format(
-                  template == "active" ? item.Loans.residual : item.Loans.money
-                ) + " so'm"
-              }}
+              {{ _.format(item.Loans.money) + " so'm" }}
+            </td>
+            <td v-if="template == 'active'">
+              {{ _.format(item.Loans.residual) + " so'm" }}
             </td>
             <td>{{ item.Loans.return_date }}</td>
             <td>
