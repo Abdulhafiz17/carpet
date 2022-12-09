@@ -7,58 +7,24 @@
   </div>
   <hr />
 
-  <ul class="nav nav-pills nav-justified">
-    <li class="nav-item">
-      <button
-        class="nav-link active"
-        data-toggle="pill"
-        warehouse-products
-        @click="
-          template = 'products';
-          $emit('setloading', true);
-        "
-      >
-        Ombor mahsulotlari
-      </button>
-    </li>
-    <li class="nav-item">
-      <button
-        class="nav-link"
-        data-toggle="pill"
-        send-product
-        @click="
-          template = 'send-product';
-          $emit('setloading', true);
-        "
-      >
-        Filialga mahsulot yuborish
-      </button>
-    </li>
-    <li class="nav-item">
-      <button
-        class="nav-link"
-        data-toggle="pill"
-        @click="
-          template = 'transfers';
-          $emit('setloading', true);
-        "
-      >
-        Filialga yuborilgan mahsulotlar
-      </button>
-    </li>
-  </ul>
-
-  <div class="tab-content pt-2">
-    <div v-if="template == 'products'">
+  <tabs
+    :tab_buttons="[
+      `Ombor mahsulotlari`,
+      `Filialga mahsulot yuborish`,
+      `Filialga yuborilgan mahsulotlar`,
+    ]"
+    :tab_slots="[`products`, `send_product`, `transfers`]"
+  >
+    <template #products>
       <Products @setloading="setloading" />
-    </div>
-    <div v-if="template == 'send-product'">
+    </template>
+    <template #send_product>
       <Transfer @setloading="setloading" />
-    </div>
-    <div v-if="template == 'transfers'">
+    </template>
+    <template #transfers>
       <Transfers @setloading="setloading" />
-    </div>
-  </div>
+    </template>
+  </tabs>
 </template>
 
 <script>
@@ -74,11 +40,19 @@ export default {
     return {
       id: this.$route.params.id,
       warehouse: null,
-      template: "",
     };
   },
   created() {
     this.getWarehouse();
+  },
+  mounted() {
+    document.querySelector(
+      "[name='products']",
+      "[name='send_product']",
+      "[name='transfers']"
+    ).onclick = () => {
+      this.$emit("setloading", true);
+    };
   },
   methods: {
     setloading(loading) {

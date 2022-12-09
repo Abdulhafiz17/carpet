@@ -168,11 +168,6 @@ export default {
   },
   created() {
     this.getBranches();
-    document.querySelector("[send-product]").onclick = () => {
-      this.products_to_branch = [];
-      this.category_id = 0;
-      this.getWarehouseProducts(0, 25);
-    };
   },
   mounted() {},
   methods: {

@@ -1,5 +1,5 @@
 <template>
-  <div class="responsive-y" style="max-height: 75vh">
+  <div class="responsive-y" style="max-height: 74vh">
     <table class="table table-sm table-hover">
       <thead>
         <tr>
@@ -460,12 +460,6 @@ export default {
       product: null,
       product_photos: [],
       main_photo: null,
-    };
-  },
-  beforeCreate() {
-    document.querySelector("[warehouse-products]").onclick = () => {
-      this.category_id = 0;
-      this.getWarehouseProducts(0, 25);
     };
   },
   created() {

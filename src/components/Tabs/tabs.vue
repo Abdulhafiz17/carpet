@@ -99,6 +99,6 @@ button::after {
 }
 
 .tab-slots {
-  padding-top: 5px;
+  padding-top: 4px;
 }
 </style>

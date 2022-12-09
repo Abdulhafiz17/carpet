@@ -1,38 +1,9 @@
 <template>
-  <ul class="nav nav-pills nav-justified">
-    <li class="nav-item">
-      <button
-        class="nav-link active"
-        data-toggle="pill"
-        @click="
-          template = 'waiting';
-          from_time = '';
-          to_time = '';
-          branch_id = 0;
-          getTransfersWaiting(0, 25);
-        "
-      >
-        Kutilayotgan
-      </button>
-    </li>
-    <li class="nav-item">
-      <button
-        class="nav-link"
-        data-toggle="pill"
-        @click="
-          template = 'accepted';
-          from_time = '';
-          to_time = '';
-          branch_id = 0;
-          getTransfersAccepted(0, 25);
-        "
-      >
-        Qabul qilingan
-      </button>
-    </li>
-  </ul>
-  <div class="tab-content pt-2">
-    <div v-if="template == 'waiting'">
+  <tabs
+    :tab_buttons="[`Kutilayotgan`, `Qabul qilingan`]"
+    :tab_slots="[`waiting`, `accepted`]"
+  >
+    <template #waiting>
       <div class="row">
         <div class="col-md-5">
           <input
@@ -60,7 +31,7 @@
           </button>
         </div>
       </div>
-      <div class="responsive-y" style="height: 65vh">
+      <div class="responsive-y" style="height: 63vh">
         <table class="table table-sm table-hover">
           <thead>
             <tr>
@@ -152,8 +123,9 @@
           </tfoot>
         </table>
       </div>
-    </div>
-    <div v-if="template == 'accepted'">
+    </template>
+
+    <template #accepted>
       <div class="row">
         <div class="col-md-5">
           <input
@@ -181,7 +153,7 @@
           </button>
         </div>
       </div>
-      <div class="responsive-y" style="height: 65vh">
+      <div class="responsive-y" style="height: 63vh">
         <table class="table table-sm table-hover">
           <thead>
             <tr>
@@ -264,8 +236,8 @@
           </tfoot>
         </table>
       </div>
-    </div>
-  </div>
+    </template>
+  </tabs>
 </template>
 
 <script>
@@ -294,11 +266,24 @@ export default {
       branches: [],
       transfers_waiting: [],
       transfers_accepted: [],
-      template: "waiting",
     };
   },
   created() {
     this.getBranches();
+  },
+  mounted() {
+    document.querySelector("[name=waiting]").onclick = () => {
+      this.from_time = "";
+      this.to_time = "";
+      this.branch_id = 0;
+      this.getTransfersWaiting(0, 25);
+    };
+    document.querySelector("[name=accepted]").onclick = () => {
+      this.from_time = "";
+      this.to_time = "";
+      this.branch_id = 0;
+      this.getTransfersAccepted(0, 25);
+    };
   },
   methods: {
     getBranches() {

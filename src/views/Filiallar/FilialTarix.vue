@@ -252,7 +252,6 @@ export default {
       _: Intl.NumberFormat(),
       id: this.$route.params.id,
       branch: null,
-      template: "active",
       page: 0,
       pages: 1,
       limit: 25,
