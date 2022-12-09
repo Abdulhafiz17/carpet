@@ -9,41 +9,11 @@
   </div>
   <hr />
 
-  <ul class="nav nav-pills nav-justified">
-    <li class="nav-item">
-      <button
-        class="nav-link active"
-        data-toggle="pill"
-        @click="
-          template = 'active';
-          from_time = '';
-          to_time = '';
-          warehouse_id = 0;
-          getTransfersWaiting(0, 25);
-        "
-      >
-        Faol ta'minotlar
-      </button>
-    </li>
-    <li class="nav-item">
-      <button
-        class="nav-link"
-        data-toggle="pill"
-        @click="
-          template = 'inactive';
-          from_time = '';
-          to_time = '';
-          warehouse_id = 0;
-          getTransfersAccepted(0, 25);
-        "
-      >
-        Yankunlangan ta'minotlar
-      </button>
-    </li>
-  </ul>
-
-  <div class="tab-content pt-2">
-    <div v-if="template == 'active'">
+  <tabs
+    :tab_buttons="[`Faol ta'minotlar`, `Yakunlangan ta'minotlar`]"
+    :tab_slots="[`faol`, `yakunlangan`]"
+  >
+    <template #faol>
       <div class="row">
         <div class="col-md-5 mb-1">
           <input
@@ -68,7 +38,7 @@
           </button>
         </div>
       </div>
-      <div class="responsive-y" style="max-height: 70vh">
+      <div class="responsive-y" style="max-height: 68vh">
         <table class="table table-sm table-hover">
           <thead>
             <tr>
@@ -151,9 +121,9 @@
           </tfoot>
         </table>
       </div>
-    </div>
+    </template>
 
-    <div v-if="template == 'inactive'">
+    <template #yakunlangan>
       <div class="row">
         <div class="col-md-5 mb-1">
           <input
@@ -178,7 +148,7 @@
           </button>
         </div>
       </div>
-      <div class="responsive-y" style="max-height: 70vh">
+      <div class="responsive-y" style="max-height: 68vh">
         <table class="table table-sm table-hover">
           <thead>
             <tr>
@@ -261,8 +231,8 @@
           </tfoot>
         </table>
       </div>
-    </div>
-  </div>
+    </template>
+  </tabs>
 </template>
 
 <script>
@@ -296,6 +266,20 @@ export default {
   },
   created() {
     this.getBranch();
+  },
+  mounted() {
+    document.querySelector("[name='faol']").onclick = () => {
+      this.from_time = "";
+      this.to_time = "";
+      this.warehouse_id = 0;
+      this.getTransfersWaiting(0, 25);
+    };
+    document.querySelector("[name='yakunlangan']").onclick = () => {
+      this.from_time = "";
+      this.to_time = "";
+      this.warehouse_id = 0;
+      this.getTransfersAccepted(0, 25);
+    };
   },
   methods: {
     getBranch() {

@@ -55,7 +55,7 @@ export default {
   display: flex;
   margin: 3px 0;
   padding: 3px;
-  border-radius: 8px;
+  border-radius: 4px;
   background: rgb(35, 38, 45);
   /* box-shadow: 0 0 50px 50px inset rgb(0, 0, 0, 0.3); */
 }
@@ -75,7 +75,7 @@ button::before {
   left: 50%;
   right: 50%;
   height: 100%;
-  border-radius: 8px;
+  border-radius: 4px;
   background: rgb(13, 110, 253);
   transition: 0.3s all;
 }
