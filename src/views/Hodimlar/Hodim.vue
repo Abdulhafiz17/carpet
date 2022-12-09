@@ -6,38 +6,12 @@
     <div class="col-md-4"></div>
   </div>
   <hr />
-  <ul class="nav nav-pills nav-justified">
-    <li class="nav-item">
-      <button
-        class="nav-link active"
-        data-toggle="pill"
-        @click="
-          template = 'payment';
-          from_time = '';
-          to_time = '';
-          getExpenses(0, 25);
-        "
-      >
-        To'lovlar
-      </button>
-    </li>
-    <li class="nav-item">
-      <button
-        class="nav-link"
-        data-toggle="pill"
-        @click="
-          template = 'trade';
-          from_time = '';
-          to_time = '';
-          getOrders(0, 25);
-        "
-      >
-        Savdolar
-      </button>
-    </li>
-  </ul>
-  <div class="tab-content pt-2">
-    <div v-if="template == 'payment'">
+
+  <tabs
+    :tab_buttons="[`To'lovlar`, `Savdolar`]"
+    :tab_slots="[`tolovlar`, `savdolar`]"
+  >
+    <template #tolovlar>
       <div class="row">
         <div class="col-md-5 mb-1">
           <input
@@ -94,8 +68,8 @@
           </tfoot>
         </table>
       </div>
-    </div>
-    <div v-if="template == 'trade'">
+    </template>
+    <template #savdolar>
       <div class="row">
         <div class="col-md-5 mb-1">
           <input
@@ -143,8 +117,8 @@
           @get="getOrders"
         />
       </div>
-    </div>
-  </div>
+    </template>
+  </tabs>
 
   <div class="modal fade" id="order">
     <div class="modal-dialog modal-lg">
@@ -187,7 +161,6 @@ export default {
       role: localStorage.getItem("role"),
       branch_id: localStorage.getItem("branch_id"),
       user: null,
-      template: "payment",
       page: 0,
       pages: 1,
       limit: 25,
@@ -200,6 +173,18 @@ export default {
   },
   created() {
     this.getUser();
+  },
+  mounted() {
+    document.querySelector("[name='tolovlar']").onclick = () => {
+      this.from_time = "";
+      this.to_time = "";
+      this.getExpenses(0, 25);
+    };
+    document.querySelector("[name='savdolar']").onclick = () => {
+      this.from_time = "";
+      this.to_time = "";
+      this.getOrders(0, 25);
+    };
   },
   methods: {
     setloading(loading) {

@@ -11,11 +11,12 @@
       "
       @click.passive="setTab(index)"
       :text="item"
+      :name="[slots[index]]"
     >
       <span>{{ item }}</span>
     </button>
   </div>
-  <div class="pt-2">
+  <div class="tab-slots">
     <div v-for="item in slots" :key="item">
       <slot :name="item" v-if="item == active_slot" />
     </div>
@@ -95,5 +96,9 @@ button::after {
   align-items: center;
   justify-content: center;
   color: whitesmoke;
+}
+
+.tab-slots {
+  padding-top: 5px;
 }
 </style>
