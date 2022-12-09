@@ -26,59 +26,17 @@
   </div>
   <hr />
 
-  <ul class="nav nav-pills nav-justified">
-    <li class="nav-item">
-      <button
-        class="nav-link active"
-        data-toggle="pill"
-        @click="
-          template = '';
-          $emit('setloading', true);
-        "
-        @click.passive="template = 'products'"
-      >
-        Mahsulotlar
-        <strong v-for="(item, index) in total_price" :key="item">
-          {{
-            _.format(item.total_price) +
-            " " +
-            item.currency +
-            (index == total_price.length - 1 ? "" : ", ")
-          }}
-        </strong>
-      </button>
-    </li>
-    <li class="nav-item">
-      <button
-        class="nav-link"
-        data-toggle="pill"
-        @click="
-          template = '';
-          $emit('setloading', true);
-        "
-        @click.passive="template = 'expenses'"
-      >
-        Xarajatlar
-        <strong v-for="(item, index) in total_expense" :key="item">
-          {{
-            _.format(item.total_expence_price) +
-            " " +
-            item.currency +
-            (index == total_expense.length - 1 ? "" : ", ")
-          }}
-        </strong>
-      </button>
-    </li>
-  </ul>
-
-  <div class="tab-content pt-2">
-    <div v-if="template == 'products'">
+  <tabs
+    :tab_buttons="[`Mahsulotlar`, `Xarajatlar`]"
+    :tab_slots="[`products`, `expenses`]"
+  >
+    <template #products>
       <Products @setloading="setloading" @getBalance="getBalance" />
-    </div>
-    <div v-if="template == 'expenses'">
+    </template>
+    <template #expenses>
       <Expenses @setloading="setloading" @getBalance="getBalance" />
-    </div>
-  </div>
+    </template>
+  </tabs>
 
   <div class="modal fade" id="addMarket">
     <div class="modal-dialog">
@@ -257,7 +215,6 @@ export default {
     return {
       _: Intl.NumberFormat(),
       supply_status: localStorage.getItem("supply_status"),
-      template: "",
       total_price: [],
       total_expense: [],
       new_market: {
@@ -275,6 +232,11 @@ export default {
   },
   created() {
     this.getBalance();
+  },
+  mounted() {
+    document.querySelector("[name=products]", "name=expenses").onclick = () => {
+      this.$emit("setloading", true);
+    };
   },
   methods: {
     setloading(loading) {

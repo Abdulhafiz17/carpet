@@ -201,7 +201,7 @@
       </button>
     </div>
   </div>
-  <div class="responsive-y mt-2" :style="`height: ${supply_status == 'false' ? '61vh' : '74vh'}`">
+  <div class="responsive-y mt-2" :style="`height: ${supply_status == 'false' ? '60vh' : '73vh'}`">
     <table class="table table-sm table-hover">
       <thead>
         <tr>

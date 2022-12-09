@@ -72,7 +72,7 @@
       </button>
     </div>
   </div>
-  <div class="responsive-y mt-2" :style="`height: ${supply_status == 'false' ? '66vh' : '74vh'}`">
+  <div class="responsive-y mt-2" :style="`height: ${supply_status == 'false' ? '66vh' : '73vh'}`">
     <ul class="list-group">
       <li class="list-group-item" v-for="item in expenses" :key="item">
         <span class="text-left">
