@@ -67,7 +67,7 @@
               </a>
             </ul>
             <div class="row my-1">
-              <div class="col">
+              <div class="col mb-1">
                 <router-link
                   :to="`/hisobotlar/${item.Branches.id}`"
                   class="btn btn-sm btn-block btn-outline-success"
@@ -76,7 +76,7 @@
                   Hisobotlar
                 </router-link>
               </div>
-              <div class="col">
+              <div class="col mb-1">
                 <router-link
                   :to="`/hodimlar/${item.Branches.id}`"
                   class="btn btn-sm btn-block btn-outline-primary"
@@ -85,7 +85,7 @@
                   Hodimlar
                 </router-link>
               </div>
-              <div class="col">
+              <div class="col mb-1">
                 <router-link
                   :to="`/filial_tarix/${item.Branches.id}`"
                   class="btn btn-sm btn-block btn-outline-secondary"
@@ -94,7 +94,7 @@
                   Tarix
                 </router-link>
               </div>
-              <div class="col">
+              <div class="col mb-1">
                 <button
                   class="btn btn-sm btn-block btn-outline-warning"
                   data-toggle="modal"

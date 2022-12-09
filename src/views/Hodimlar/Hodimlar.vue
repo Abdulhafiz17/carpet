@@ -43,9 +43,16 @@
           :class="item.status ? 'border-secondary' : 'border-danger'"
         >
           <div class="card-body">
-            <details>
-              <summary><i class="fa fa-user"></i>{{ item.name }}</summary>
-              <div class="details-body">
+            <collapse>
+              <template #header>
+                <span>
+                  <i class="fa fa-user" />
+                </span>
+                <span>
+                  {{ item.name }}
+                </span>
+              </template>
+              <template #body>
                 <ul class="list-group">
                   <a class="list-group-item" :href="`tel:+998${item.phone}`">
                     <i class="fa fa-phone"></i>
@@ -78,8 +85,8 @@
                     </span>
                   </li>
                 </ul>
-              </div>
-            </details>
+              </template>
+            </collapse>
             <div class="row my-1">
               <div class="col">
                 <router-link
