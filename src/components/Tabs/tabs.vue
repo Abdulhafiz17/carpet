@@ -56,8 +56,12 @@ export default {
   margin: 3px 0;
   padding: 3px;
   border-radius: 4px;
-  background: rgb(35, 38, 45);
+  background: rgb(35, 38, 45, 0.8);
   /* box-shadow: 0 0 50px 50px inset rgb(0, 0, 0, 0.3); */
+}
+
+.dark .tab-buttons {
+  background: rgb(35, 38, 45);
 }
 
 button {

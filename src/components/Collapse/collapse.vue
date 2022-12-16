@@ -3,7 +3,7 @@
     <button class="details-header" @click="toggleDetails($event)">
       <slot name="header" />
       <span>
-        <i :class="`fa fa-lg fa-angle-${icon}`" />
+        <i :class="`fa fa-lg fa-${icon}`" />
       </span>
     </button>
     <div class="details-body">
@@ -17,7 +17,7 @@ export default {
   name: "collapse",
   data() {
     return {
-      icon: "down",
+      icon: "plus",
     };
   },
   methods: {
@@ -25,10 +25,10 @@ export default {
       let details = event.target.parentNode;
       let open = details.classList.contains("open");
       if (open) {
-        this.icon = "down";
+        this.icon = "plus";
         details.classList.remove("open");
       } else {
-        this.icon = "up";
+        this.icon = "minus";
         details.classList.add("open");
       }
     },
@@ -40,8 +40,11 @@ export default {
 .details {
   margin: 3px 0;
   border-radius: 4px;
-  background: rgb(50, 55, 65);
   /* transition: 0.5s all; */
+}
+
+.dark .details {
+  background: rgb(50, 55, 65);
 }
 
 .details .details {

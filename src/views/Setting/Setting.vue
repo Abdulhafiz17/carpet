@@ -10,8 +10,69 @@
     </div>
   </div>
   <hr />
-  <div class="responsive-y" style="max-height: 78vh">
-    <div class="row gap-2">
+
+  <tabs
+    :tab_buttons="[`Umumiy`, `Valyutalar`, `Kategoriyalar`]"
+    :tab_slots="[`common`, `currencies`, `categories`]"
+  >
+    <template #common>
+      <div :class="common_class">
+        <div class="row">
+          <div class="col-md-12">
+            <h5>Tunggi rejim</h5>
+            <p>Tizim uchun tunggi yoki tonggi mavzu</p>
+          </div>
+          <div class="col-md-12">
+            <ul class="list-group">
+              <li class="list-group-item px-5 p-2" @click="changeMode()">
+                <span>Tunggi rejim</span>
+                <span class="toggle-wrapper">
+                  <label class="toggle">
+                    <input
+                      id="mode"
+                      type="checkbox"
+                      :checked="mode === 'dark' ? 'checked' : false"
+                      @change="changeMode()"
+                    />
+                    <span class="toggler round">
+                      <span id="sun">☀️</span>
+                      <span id="moon">🌙</span>
+                    </span>
+                  </label>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div :class="common_class">
+        <div class="row">
+          <div class="col-md-12">
+            <h5>Shaxsiy ma'lumotlar</h5>
+            <p>
+              Ism, telefon raqami, foydalanuvchi nomi yoki parolni o'zgartirish
+            </p>
+          </div>
+          <div class="col-md-12">
+            <User @setloading="setloading" />
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template #currencies>
+      <div :class="common_class">
+        <Currency @setloading="setloading" />
+      </div>
+    </template>
+
+    <template #categories>
+      <div :class="common_class">
+        <Category @setloading="setloading" />
+      </div>
+    </template>
+  </tabs>
+  <!-- <div class="row gap-2">
       <div class="col-md-12">
         <details>
           <summary>
@@ -205,125 +266,28 @@
           </div>
         </details>
       </div>
-
-      <div class="col-md-12">
-        <details>
-          <summary @click="getUser()">
-            <span>
-              <h5>Shaxsiy ma'lumotlar</h5>
-              <p>
-                Ism, telefon raqami, foydalanuvchi nomi yoki parolni
-                o'zgartirish
-              </p>
-            </span>
-          </summary>
-          <div class="details-body" v-if="user">
-            <form @submit.prevent="putUser(user)">
-              <div class="row gap-2 text-left">
-                <div class="col-md-10 mx-auto">
-                  <div class="row">
-                    <label class="col-md-6">
-                      Ism
-                      <input
-                        type="text"
-                        class="form-control form-control-sm"
-                        required
-                        v-model="user.name"
-                      />
-                    </label>
-                    <label class="col-md-6">
-                      Telefon raqami
-                      <div class="input-group input-group-sm">
-                        <div class="input-group-text">+998</div>
-                        <input
-                          type="text"
-                          class="form-control"
-                          required
-                          v-model="user.phone"
-                        />
-                      </div>
-                    </label>
-                  </div>
-                </div>
-                <div class="col-md-10 mx-auto">
-                  <div class="row">
-                    <label class="col-md-6">
-                      Foydalanuvchi nomi
-                      <input
-                        type="text"
-                        class="form-control form-control-sm"
-                        required
-                        v-model="user.username"
-                      />
-                    </label>
-                    <label class="col-md-6">
-                      Parol
-                      <input
-                        type="password"
-                        class="form-control form-control-sm"
-                        v-model="user.password"
-                      />
-                    </label>
-                  </div>
-                </div>
-                <div class="col-md-10 mx-auto">
-                  <button class="btn btn-sm btn-outline-primary float-right">
-                    <i class="far fa-circle-check"></i> Tasdiqlash
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </details>
-      </div>
-    </div>
-  </div>
+    </div> -->
 </template>
 
 <script>
-import {
-  catchError,
-  categories,
-  createCategory,
-  createCurrency,
-  currencies,
-  success,
-  updateCategory,
-  updateCurrency,
-  updateUser,
-  user,
-} from "@/components/Api/api";
-import Pagination from "../../components/Pagination/Pagination.vue";
+import User from "./User.vue";
+import Currency from "./Currency.vue";
+import Category from "./Category.vue";
 export default {
   name: "Setting",
   emits: ["setloading"],
-  components: { Pagination },
+  components: { User, Currency, Category },
   data() {
     return {
+      common_class: "p-3 mb-1 border border-primary rounded text-left",
       mode: document.querySelector("#app").classList[0],
-      id: localStorage.getItem("id"),
-      new_currency: {
-        currency: null,
-        price: null,
-      },
-      currencies: [],
-      new_category: {
-        name: null,
-        percent: 0,
-        type: "",
-      },
-      page: 0,
-      pages: 1,
-      limit: 25,
-      categories: [],
-      user: null,
     };
   },
-  created() {
-    this.$emit("setloading", false);
-  },
-  mounted() {},
+  created() {},
   methods: {
+    setloading(loading) {
+      this.$emit("setloading", loading);
+    },
     changeMode() {
       if (this.mode) {
         this.mode = "";
@@ -335,124 +299,12 @@ export default {
         localStorage.setItem("mode", this.mode);
       }
     },
-    postCurrency(currency) {
-      this.$emit("setloading", true);
-      createCurrency(currency)
-        .then((Response) => {
-          success().then(() => {
-            this.new_currency = {
-              currency: null,
-              price: null,
-            };
-            this.getCurrencies();
-          });
-        })
-        .catch((error) => {
-          this.$emit("setloading", false);
-          catchError(error);
-        });
-    },
-    getCurrencies() {
-      this.$emit("setloading", true);
-      currencies()
-        .then((Response) => {
-          this.currencies = Response.data;
-          this.$emit("setloading", false);
-        })
-        .catch((error) => {
-          this.$emit("setloading", false);
-          catchError(error);
-        });
-    },
-    putCurrency(currency) {
-      updateCurrency(currency)
-        .then((Response) => {
-          success().then(() => {
-            this.getCurrencies();
-          });
-        })
-        .catch((error) => {
-          this.$emit("setloading", false);
-          catchError(error);
-        });
-    },
-    getUser() {
-      this.$emit("setloading", true);
-      user(this.id)
-        .then((Response) => {
-          this.user = Response.data;
-          this.user.password = "";
-          this.$emit("setloading", false);
-        })
-        .catch((error) => {
-          this.$emit("setloading", false);
-          catchError(error);
-        });
-    },
-    putUser(user) {
-      this.$emit("setloading", true);
-      updateUser(user)
-        .then((Response) => {
-          success().then(() => {
-            this.getUser();
-          });
-        })
-        .catch((error) => {
-          this.$emit("setloading", false);
-          catchError(error);
-        });
-    },
-    postCategory(category) {
-      this.$emit("setloading", true);
-      createCategory(category)
-        .then((Response) => {
-          success().then(() => {
-            this.new_category = {
-              name: null,
-              percent: 0,
-              type: "",
-            };
-            this.getCategories(0, 25);
-          });
-        })
-        .catch((error) => {
-          this.$emit("setloading", false);
-          catchError(error);
-        });
-    },
-    getCategories(page, limit) {
-      this.$emit("setloading", true);
-      categories("", "", page, limit)
-        .then((Response) => {
-          this.page = Response.data.current_page;
-          this.pages = Response.data.pages;
-          this.limit = Response.data.limit;
-          this.categories = Response.data.data;
-          this.$emit("setloading", false);
-        })
-        .catch((error) => {
-          this.$emit("setloading", false);
-          catchError(error);
-        });
-    },
-    putCategory(category) {
-      this.$emit("setloading", true);
-      updateCategory(category)
-        .then((Response) => {
-          success().then(() => {
-            this.getCategories(0, 25);
-          });
-        })
-        .catch((error) => {
-          this.$emit("setloading", false);
-          catchError(error);
-        });
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+
 .form-control {
   position: relative;
 }
