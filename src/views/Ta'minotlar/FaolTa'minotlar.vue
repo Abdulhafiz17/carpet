@@ -1,5 +1,5 @@
 <template>
-  <div class="responsive-y" style="max-height: 75vh">
+  <div class="responsive-y" style="max-height: 74vh">
     <table class="table table-sm table-hover">
       <thead>
         <tr>

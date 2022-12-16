@@ -7,37 +7,17 @@
   </div>
   <hr />
 
-  <ul class="nav nav-pills nav-justified">
-    <li class="nav-item">
-      <button
-        class="nav-link"
-        :class="template == 'active' ? 'active' : ''"
-        @click="template = ''"
-        @click.passive="template = 'active'"
-      >
-        Faol ta'minotlar
-      </button>
-    </li>
-    <li class="nav-item">
-      <button
-        class="nav-link"
-        :class="template == 'closed' ? 'active' : ''"
-        @click="template = ''"
-        @click.passive="template = 'closed'"
-      >
-        Yakunlangan ta'minotlar
-      </button>
-    </li>
-  </ul>
-
-  <div class="tab-content pt-2">
-    <div v-if="template == 'active'">
+  <tabs
+    :tab_buttons="[`Faol ta'minotlar`, `Yakunlangan ta'minotlar`]"
+    :tab_slots="[`active`, `closed`]"
+  >
+    <template #active>
       <Active @setloading="setloading" />
-    </div>
-    <div v-if="template == 'closed'">
+    </template>
+    <template #closed>
       <Closed @setloading="setloading" />
-    </div>
-  </div>
+    </template>
+  </tabs>
 </template>
 
 <script>
@@ -48,13 +28,9 @@ export default {
   emits: ["setloading"],
   components: { Active, Closed },
   data() {
-    return {
-      template: "",
-    };
+    return {};
   },
-  created() {
-    this.template = "active";
-  },
+  created() {},
   methods: {
     setloading(loading) {
       this.$emit("setloading", loading);
