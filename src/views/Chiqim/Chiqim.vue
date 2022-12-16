@@ -32,9 +32,22 @@
     </div>
     <div class="col-md-4"></div>
   </div>
+
   <hr />
 
-  <ul class="nav nav-pills nav-justified">
+  <tabs
+    :tab_buttons="[`Doimiy chiqimlar`, `Bir marttalik chiqimlar`]"
+    :tab_slots="[`fixed`, `variable`]"
+  >
+    <template #fixed>
+      <Doimiy :fixed_expenses="expenses" @setloading="setloading" />
+    </template>
+    <template #variable>
+      <BirMarttalik @setloading="setloading" />
+    </template>
+  </tabs>
+
+  <!-- <ul class="nav nav-pills nav-justified">
     <li class="nav-item">
       <button
         class="nav-link"
@@ -62,7 +75,7 @@
     <div v-if="template == 'bir_marttalik'">
       <BirMarttalik @setloading="setloading" />
     </div>
-  </div>
+  </div> -->
 
   <ModalChiqimlar
     :fixed_expenses="expenses"
@@ -95,11 +108,8 @@ export default {
     setloading(loading) {
       this.$emit("setloading", loading);
     },
-    setTemplate(template) {
-      this.template = "";
-      setTimeout(() => {
-        this.template = template;
-      }, 1);
+    setTemplate(name) {
+      document.querySelector(`[name=${name}]`).click();
     },
     getExpenses(mounted) {
       getFixedExpenses()

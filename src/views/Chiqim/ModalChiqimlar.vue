@@ -299,7 +299,7 @@ export default {
               source: "",
               comment: null,
             };
-            this.$emit("setTemplate", "doimiy");
+            this.$emit("setTemplate", "fixed");
           });
         })
         .catch((error) => {
@@ -319,7 +319,7 @@ export default {
               source: 0,
               comment: null,
             };
-            this.$emit("setTemplate", "bir_marttalik");
+            this.$emit("setTemplate", "variable");
           });
         })
         .catch((error) => {
