@@ -45,15 +45,6 @@ export default {
   created() {
     this.getWarehouse();
   },
-  mounted() {
-    document.querySelector(
-      "[name='products']",
-      "[name='send_product']",
-      "[name='transfers']"
-    ).onclick = () => {
-      this.$emit("setloading", true);
-    };
-  },
   methods: {
     setloading(loading) {
       this.$emit("setloading", loading);

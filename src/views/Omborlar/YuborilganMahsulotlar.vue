@@ -269,6 +269,7 @@ export default {
     };
   },
   created() {
+    this.$emit("setloading", true);
     this.getBranches();
   },
   mounted() {

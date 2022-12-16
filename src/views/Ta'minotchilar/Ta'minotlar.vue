@@ -1,28 +1,28 @@
 <template>
   <form @submit.prevent="getSupplies(0, 25)">
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-5 mb-1">
         <input
           type="date"
           class="form-control form-control-sm"
           v-model="from_time"
         />
       </div>
-      <div class="col-md-5">
+      <div class="col-md-5 mb-1">
         <input
           type="date"
           class="form-control form-control-sm"
           v-model="to_time"
         />
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 mb-1">
         <button class="btn btn-sm btn-block btn-outline-primary">
           <i class="fa fa-search" />
         </button>
       </div>
     </div>
   </form>
-  <div class="responsive-y" style="height: 70vh">
+  <div class="responsive-y" style="height: 69vh">
     <table class="table table-sm table-hover">
       <thead>
         <tr>
@@ -152,6 +152,7 @@ export default {
     };
   },
   created() {
+    this.$emit("setloading", true);
     this.getParties(0);
   },
   methods: {

@@ -463,6 +463,7 @@ export default {
     };
   },
   created() {
+    this.$emit("setloading", true);
     this.getCategories();
   },
   mounted() {},

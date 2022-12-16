@@ -7,36 +7,17 @@
   </div>
   <hr />
 
-  <ul class="nav nav-pills nav-justified">
-    <li class="nav-item">
-      <button
-        class="nav-link active"
-        data-toggle="pill"
-        @click="template = ''"
-        @click.passive="template = 'supply'"
-      >
-        Olingan ta'minotlar tarixi
-      </button>
-    </li>
-    <li class="nav-item">
-      <button
-        class="nav-link"
-        data-toggle="pill"
-        @click="template = ''"
-        @click.passive="template = 'payment'"
-      >
-        To'lovlar tarixi
-      </button>
-    </li>
-  </ul>
-  <div class="tab-content pt-2">
-    <div v-if="template == 'supply'">
+  <tabs
+    :tab_buttons="[`Olingan ta'minotlar tarixi`, `To'lovlar tarixi`]"
+    :tab_slots="[`supply`, `payment`]"
+  >
+    <template #supply>
       <Supply @setloading="setloading" />
-    </div>
-    <div v-if="template == 'payment'">
+    </template>
+    <template #payment>
       <Payments @setloading="setloading" />
-    </div>
-  </div>
+    </template>
+  </tabs>
 </template>
 
 <script>

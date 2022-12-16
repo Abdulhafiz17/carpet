@@ -22,7 +22,7 @@
       </div>
     </div>
   </form>
-  <div class="responsive-y" style="height: 70vh">
+  <div class="responsive-y" style="height: 69vh">
     <table class="table table-sm table-hover">
       <thead>
         <tr>
