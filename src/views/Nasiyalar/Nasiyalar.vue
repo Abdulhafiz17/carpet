@@ -7,136 +7,213 @@
   </div>
   <hr />
 
-  <ul class="nav nav-pills nav-justified">
-    <li class="nav-item">
-      <button
-        class="nav-link"
-        :class="template == 'active' ? 'active' : ''"
-        @click="
-          template = 'active';
-          getLoansActive(0, 25);
-        "
-      >
-        Faol
-      </button>
-    </li>
-    <li class="nav-item">
-      <button
-        class="nav-link"
-        :class="template == 'closed' ? 'active' : ''"
-        @click="
-          template = 'closed';
-          getLoansClosed(0, 25);
-        "
-      >
-        Yakunlangan
-      </button>
-    </li>
-  </ul>
-
-  <div class="tab-content pt-2">
-    <div class="responsive-y" style="height: 75vh">
-      <table class="table table-sm table-hover">
-        <thead>
-          <tr>
-            <th>
-              <div class="dropdown">
-                <button
-                  id="dropdownMenuButton"
-                  type="button"
-                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
-                  data-toggle="dropdown"
-                >
-                  {{ customer ? customer.name : "Mijozlar" }}
-                </button>
-                <div
-                  class="dropdown-menu w-100 mt-1"
-                  aria-labelledby="dropdownMenuButton"
-                >
-                  <div
-                    class="responsive-y scroll-customers"
-                    style="max-height: 20vh"
-                    @scroll="scrollCustomers()"
+  <tabs
+    :tab_buttons="[`Faol`, `Yakunlangan`]"
+    :tab_slots="[`active`, `closed`]"
+  >
+    <template #active>
+      <div class="responsive-y" style="height: 74vh">
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>
+                <div class="dropdown">
+                  <button
+                    id="dropdownMenuButton"
+                    type="button"
+                    class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                    data-toggle="dropdown"
                   >
-                    <input
-                      type="search"
-                      class="form-control form-control-sm mt-1"
-                      v-model="customer_search"
-                      @keyup="getCustomers(true)"
-                    />
-                    <button
-                      type="button"
-                      class="dropdown-item"
-                      @click="
-                        customer = null;
-                        template == 'active'
-                          ? getLoansActive(0, 25)
-                          : getLoansClosed(0, 25);
-                      "
+                    {{ customer ? customer.name : "Mijozlar" }}
+                  </button>
+                  <div
+                    class="dropdown-menu w-100 mt-1"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <div
+                      class="responsive-y scroll-customers"
+                      style="max-height: 20vh"
+                      @scroll="scrollCustomers()"
                     >
-                      {{ "Mijozlar" }}
-                    </button>
-                    <button
-                      type="button"
-                      class="dropdown-item"
-                      v-for="item in customers"
-                      :key="item"
-                      @click="
-                        customer = item;
-                        template == 'active'
-                          ? getLoansActive(0, 25)
-                          : getLoansClosed(0, 25);
-                      "
-                    >
-                      {{ item.name }}
-                    </button>
+                      <input
+                        type="search"
+                        class="form-control form-control-sm mt-1"
+                        v-model="customer_search"
+                        @keyup="getCustomers(true)"
+                      />
+                      <button
+                        type="button"
+                        class="dropdown-item"
+                        @click="
+                          customer = null;
+                          getLoansActive(0, 25);
+                        "
+                      >
+                        {{ "Mijozlar" }}
+                      </button>
+                      <button
+                        type="button"
+                        class="dropdown-item"
+                        v-for="item in customers"
+                        :key="item"
+                        @click="
+                          customer = item;
+                          getLoansActive(0, 25);
+                        "
+                      >
+                        {{ item.name }}
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </th>
-            <th>Nasiya summasi</th>
-            <th v-if="template == 'active'">Qoldiq summa</th>
-            <th>Qaytarish sanasi</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="item in template == 'active' ? loans_active : loans_closed"
-            :key="item"
-          >
-            <td>{{ item.Customers.name }}</td>
-            <td>
-              {{ _.format(item.Loans.money) + " so'm" }}
-            </td>
-            <td v-if="template == 'active'">
-              {{ _.format(item.Loans.residual) + " so'm" }}
-            </td>
-            <td>{{ item.Loans.return_date }}</td>
-            <td>
-              <div class="btn-group btn-group-sm">
-                <button
-                  v-if="template == 'active'"
-                  class="btn btn-outline-success"
-                  data-toggle="modal"
-                  data-target="#pay"
-                  @click="take_loan.id = item.Loans.id"
-                >
-                  <i class="fa fa-coins" />
-                </button>
-                <router-link
-                  :to="`/nasiya/${item.Loans.id}`"
-                  class="btn btn-outline-info"
-                >
-                  <i class="fa fa-info" />
-                </router-link>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+              </th>
+              <th>Nasiya summasi</th>
+              <th>Qoldiq summa</th>
+              <th>Qaytarish sanasi</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in loans_active" :key="item">
+              <td>{{ item.Customers.name }}</td>
+              <td>
+                {{ _.format(item.Loans.money) + " so'm" }}
+              </td>
+              <td>
+                {{ _.format(item.Loans.residual) + " so'm" }}
+              </td>
+              <td>{{ item.Loans.return_date }}</td>
+              <td>
+                <div class="btn-group btn-group-sm">
+                  <button
+                    class="btn btn-outline-success"
+                    data-toggle="modal"
+                    data-target="#pay"
+                    @click="take_loan.id = item.Loans.id"
+                  >
+                    <i class="fa fa-coins" />
+                  </button>
+                  <router-link
+                    :to="`/nasiya/${item.Loans.id}`"
+                    class="btn btn-outline-info"
+                  >
+                    <i class="fa fa-info" />
+                  </router-link>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5">
+                <Pagination
+                  :page="page"
+                  :pages="pages"
+                  :limit="limit"
+                  @get="getLoansActive"
+                />
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </template>
+    <template #closed>
+      <div class="responsive-y" style="height: 74vh">
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>
+                <div class="dropdown">
+                  <button
+                    id="dropdownMenuButton"
+                    type="button"
+                    class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                    data-toggle="dropdown"
+                  >
+                    {{ customer ? customer.name : "Mijozlar" }}
+                  </button>
+                  <div
+                    class="dropdown-menu w-100 mt-1"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <div
+                      class="responsive-y scroll-customers"
+                      style="max-height: 20vh"
+                      @scroll="scrollCustomers()"
+                    >
+                      <input
+                        type="search"
+                        class="form-control form-control-sm mt-1"
+                        v-model="customer_search"
+                        @keyup="getCustomers(true)"
+                      />
+                      <button
+                        type="button"
+                        class="dropdown-item"
+                        @click="
+                          customer = null;
+                          getLoansClosed(0, 25);
+                        "
+                      >
+                        {{ "Mijozlar" }}
+                      </button>
+                      <button
+                        type="button"
+                        class="dropdown-item"
+                        v-for="item in customers"
+                        :key="item"
+                        @click="
+                          customer = item;
+                          getLoansClosed(0, 25);
+                        "
+                      >
+                        {{ item.name }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </th>
+              <th>Nasiya summasi</th>
+              <th>Qaytarish sanasi</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in loans_closed" :key="item">
+              <td>{{ item.Customers.name }}</td>
+              <td>
+                {{ _.format(item.Loans.money) + " so'm" }}
+              </td>
+              <td>{{ item.Loans.return_date }}</td>
+              <td>
+                <div class="btn-group btn-group-sm">
+                  <router-link
+                    :to="`/nasiya/${item.Loans.id}`"
+                    class="btn btn-outline-info"
+                  >
+                    <i class="fa fa-info" />
+                  </router-link>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5">
+                <Pagination
+                  :page="page"
+                  :pages="pages"
+                  :limit="limit"
+                  @get="getLoansClosed"
+                />
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </template>
+  </tabs>
 
   <div class="modal fade" id="pay">
     <div class="modal-dialog">
@@ -195,9 +272,11 @@ import {
   success,
   takeLoan,
 } from "@/components/Api/api";
+import Pagination from "@/components/Pagination/Pagination.vue";
 export default {
   name: "Nasiyalar",
   emits: ["setloading"],
+  components: { Pagination },
   data() {
     return {
       template: "active",
@@ -222,6 +301,14 @@ export default {
   },
   created() {
     this.getCustomers();
+  },
+  mounted() {
+    document.querySelector("[name=active]").onclick = () => {
+      this.getLoansActive(0, 25);
+    };
+    document.querySelector("[name=closed]").onclick = () => {
+      this.getLoansClosed(0, 25);
+    };
   },
   methods: {
     getCustomers(search) {
